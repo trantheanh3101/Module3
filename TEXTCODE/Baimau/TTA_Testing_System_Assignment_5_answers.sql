@@ -11,7 +11,7 @@
 					SELECT A.*,D.DepartmentName  -- không thể dùng select * bởi vì trùng lặp cột DepartmentID
 					FROM `account` a
 					INNER JOIN department d
-					ON a.DepartmentID=d.DepartmentID
+					ON a.DepartmentID = d.DepartmentID
 					WHERE d.DepartmentName='Sale';
 				SELECT *
 				FROM nv_sale

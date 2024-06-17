@@ -14,7 +14,6 @@ CREATE TABLE Position (
     PositionName ENUM('Dev', 'Test', 'Scrum Master', 'PM') NOT NULL UNIQUE KEY
 );
 
-
 DROP TABLE IF EXISTS `Account`;
 CREATE TABLE `Account` (
     AccountID TINYINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -174,8 +173,8 @@ INSERT INTO `Group`	(  GroupName			, CreatorID		, CreateDate)
 VALUE 				(N'Testing System'		,   '5'			,'2019-03-05'),
 					(N'Developement'		,   '1'			,'2020-03-07'),
                     (N'VTI Sale 01'			,   '2'			,'2020-03-09'),
-                    (N'VTI Sale 02a'			,   '3'			,'2020-03-10'),
-                    (N'VTI Sale 02b'			,   '4'			,'2020-03-28'),
+                    (N'VTI Sale 02a'		,   '3'			,'2020-03-10'),
+                    (N'VTI Sale 02b'		,   '4'			,'2020-03-28'),
                     (N'VTI Creator'			,   '6'			,'2020-04-06'),
                     (N'VTI Marketing 01'	,   '7'			,'2020-04-07'),
                     (N'Management'			,   '8'			,'2020-04-08'),
