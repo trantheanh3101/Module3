@@ -23,7 +23,7 @@ create table LoaiKhach(
 drop table if exists KhachHang;
 create table KhachHang(
 	IDKhachHang int not null primary key,
-    IDLoaiKhach int not null,
+    IDLoaiKhach int,
     HoTen varchar(45),
     NgaySinh date,
     SoCMND varchar(45),
@@ -96,9 +96,9 @@ create table NhanVien(
 DROP TABLE IF EXISTS Hop_Dong;
 CREATE TABLE Hop_Dong (
 	IDHopDong INT NOT NULL PRIMARY KEY,
-	IDNhanVien INT not null,
-	IDKhachHang INT not null,
-	IDDichVu INT not null,
+	IDNhanVien INT,
+	IDKhachHang INT,
+	IDDichVu INT,
 	NgayLamHopDong DATE NULL,
 	NgayKetThuc DATE NULL,
 	TienDatCoc INT NULL,
