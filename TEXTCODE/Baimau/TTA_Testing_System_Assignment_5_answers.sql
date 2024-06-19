@@ -111,7 +111,7 @@ SELECT * FROM cau3_sub;
 												SELECT *, COUNT(DepartmentID) AS slnv
 												FROM `account`
 												GROUP BY DepartmentID
-																	) AS tablealnv
+											    ) AS tablealnv
 												);
 					SELECT * FROM cauview4;
                     
