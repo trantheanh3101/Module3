@@ -31,38 +31,61 @@
 					WHERE DepartmentName='Sale';
 
 -- Question 2: Tạo view có chứa thông tin các account tham gia vào nhiều group nhất
--- Sử dụng CTE : cách 1:
-					DROP VIEW IF EXISTS cau3_CTE;
-					CREATE VIEW cau3_CTE AS
-						WITH gr_acc AS
-						(
-							SELECT A.*,ga.GroupID, COUNT(a.AccountID) AS slacc
-							FROM `account` a
-							INNER JOIN groupaccount ga
-							ON a.AccountID=ga.AccountID
-							GROUP BY ga.GroupID
-						)
-						SELECT *
-						FROM gr_acc
-						WHERE slacc = (SELECT MAX(slacc) FROM gr_acc);
-					SELECT * FROM cau3_CTE;
+-- Tạo view để lấy số lượng nhóm mỗi tài khoản tham gia
+CREATE VIEW SoLuongNhomThamGia AS
+SELECT
+    a.AccountID,
+    a.Email,
+    a.Username,
+    a.FullName,
+    a.DepartmentID,
+    a.PositionID,
+    COUNT(ga.GroupID) AS SoNhom
+FROM `Account` a
+JOIN GroupAccount ga ON a.AccountID = ga.AccountID
+GROUP BY a.AccountID;
+-- Tạo view để lấy các tài khoản tham gia vào nhiều nhóm nhất
+CREATE VIEW TaiKhoanThamGiaNhieuNhomNhat AS
+SELECT *
+FROM SoLuongNhomThamGia
+WHERE SoNhom = (SELECT MAX(SoNhom) FROM SoLuongNhomThamGia);
+-- Chọn dữ liệu từ view
+SELECT * FROM TaiKhoanThamGiaNhieuNhomNhat;
 
--- Cách 2: SỬ DỤNG SUBQUARY
-					DROP VIEW IF EXISTS cau3_sub;
-					CREATE VIEW cau3_sub AS
-						SELECT a.*, COUNT(a.AccountID) AS slacc
-						FROM `account` a
-						INNER JOIN groupaccount ga
-						ON a.AccountID=ga.AccountID
-						GROUP BY ga.GroupID
-						HAVING slacc = (
-										SELECT MAX(sl)  FROM (
-															SELECT *,COUNT(AccountID) AS sl
-															FROM groupaccount
-															GROUP BY GroupID
-															) AS table_alass
-										);
-					SELECT * FROM cau3_sub;
+-- Sử dụng CTE : cách 1:
+DROP VIEW IF EXISTS cau3_CTE;
+CREATE VIEW cau3_CTE AS
+WITH gr_acc AS (
+    SELECT a.*, COUNT(ga.GroupID) AS slacc
+    FROM `account` a
+    INNER JOIN groupaccount ga ON a.AccountID = ga.AccountID
+    GROUP BY a.AccountID
+)
+SELECT * FROM gr_acc
+WHERE slacc = (
+    SELECT MAX(slacc)
+    FROM gr_acc
+);
+SELECT * FROM cau3_CTE;
+
+
+-- Cách 2: sử dụng subquery
+DROP VIEW IF EXISTS cau3_sub;
+CREATE VIEW cau3_sub AS
+SELECT a.*,COUNT(ga.GroupID) AS slacc
+FROM `account` a
+INNER JOIN groupaccount ga ON a.AccountID = ga.AccountID
+GROUP BY a.AccountID
+HAVING slacc = (
+            SELECT MAX(sl)
+                FROM (
+                    SELECT AccountID, COUNT(GroupID) AS sl
+                    FROM groupaccount
+                    GROUP BY AccountID
+                ) AS table_alass
+    );
+SELECT * FROM cau3_sub;
+
 
 
 -- Question 3: Tạo view có chứa câu hỏi có những content quá dài (content quá 300 từ được coi là quá dài) và xóa nó đi
