@@ -25,22 +25,6 @@ where (kh.DiaChi LIKE '%Đà Nẵng' OR kh.DiaChi LIKE '%Quảng Trị')
 # (Với TongTien được tính theo công thức như sau: ChiPhiThue + SoLuong*Gia,
 # với SoLuong và Giá là từ bảng DichVuDiKem) cho tất cả các Khách hàng đã từng đặt phỏng.
 # (Những Khách hàng nào chưa từng đặt phòng cũng phải hiển thị ra).
-
-SELECT KH.IDKhachHang,KH.HoTen,LK.TenLoaiKhach,
-    HD.IDHopDong,DV.TenDichVu,HD.NgayLamHopDong,HD.NgayKetThuc,
-    (DV.ChiPhiThue + SUM(HDC.SoLuong * DVK.Gia)) AS TongTien
-FROM KhachHang KH
-LEFT JOIN LoaiKhach LK ON KH.IDLoaiKhach = LK.IDLoaiKhach
-LEFT JOIN Hop_Dong HD ON KH.IDKhachHang = HD.IDKhachHang
-LEFT JOIN DichVu DV ON HD.IDDichVu = DV.IDDichVu
-LEFT JOIN HopDongChiTiet HDC ON HD.IDHopDong = HDC.IDHopDong
-LEFT JOIN DichVuDiKem DVK ON HDC.IDDichVuDiKem = DVK.IDDichVuDiKem
-GROUP BY
-    KH.IDKhachHang,
-    HD.IDHopDong
-ORDER BY
-    KH.IDKhachHang;
-
 SELECT
     kh.IDKhachHang,
     kh.HoTen,
@@ -85,7 +69,28 @@ WHERE YEAR(hd.NgayLamHopDong) = 2020
     JOIN Hop_Dong hd ON dv.IDDichVu = hd.IDDichVu
     WHERE YEAR(hd.NgayLamHopDong) = 2021
 )
-group by dv.IDDichVu
+group by dv.IDDichVu;
+
+# 8.	Hiển thị thông tin ho_ten khách hàng có trong hệ thống, với yêu cầu ho_ten không trùng nhau.
+# Học viên sử dụng theo 3 cách khác nhau để thực hiện yêu cầu trên.
+# cach 1:
+SELECT DISTINCT HoTen
+FROM KhachHang;
+#  caách 2:
+SELECT HoTen
+FROM KhachHang
+GROUP BY HoTen;
+#  cach 3:
+
+# 9.	Thực hiện thống kê doanh thu theo tháng, nghĩa là tương ứng với mỗi tháng trong năm 2021
+# thì sẽ có bao nhiêu khách hàng thực hiện đặt phòng.
+SELECT
+    MONTH(NgayLamHopDong) AS Thang,
+    COUNT(DISTINCT IDKhachHang) AS SoLuongKhachHang
+FROM Hop_Dong
+WHERE YEAR(NgayLamHopDong) = 2021
+GROUP BY MONTH(NgayLamHopDong)
+ORDER BY Thang;
 
 
 
