@@ -11,7 +11,7 @@ create table LoaiDichVu(
 drop table if exists KieuThue;
 create table KieuThue(
 	IDKieuThue varchar(45) not null primary key,
-    Gia INT null
+    TenKieuThue varchar(45)
 );
 
 drop table if exists LoaiKhach;
@@ -53,7 +53,7 @@ create table DichVuDiKem(
 	IDDichVuDiKem INT not null primary key,
     TenDichVuDiKem varchar(45),
     Gia int,
-    DonVi int,
+    DonVi varchar(50),
     TrangThaiKhaDung varchar(45)
 );
 
@@ -102,7 +102,6 @@ CREATE TABLE Hop_Dong (
 	NgayLamHopDong DATE NULL,
 	NgayKetThuc DATE NULL,
 	TienDatCoc INT NULL,
-	TongTien INT NULL,
     FOREIGN KEY (IDDichVu) REFERENCES DichVu(IDDichVu),
     foreign key (IDKhachHang) references KhachHang(IDKhachHang),
     foreign key (IDNhanVien) references NhanVien(IDNhanVien)
@@ -118,154 +117,110 @@ create table HopDongChiTiet(
     FOREIGN KEY (IDHopDong) REFERENCES Hop_Dong(IDHopDong)
 );
 
-INSERT INTO LoaiDichVu (IDLoaiDichVu, TenLoaiDichVu) VALUES
-    (1, 'Phòng Deluxe'),
-    (2, 'Biệt thự ven biển'),
-    (3, 'Căn hộ cao cấp'),
-    (4, 'Phòng Suite'),
-    (5, 'Phòng gia đình'),
-    (6, 'Phòng tiêu chuẩn'),
-    (7, 'Căn hộ Studio'),
-    (8, 'Chung cư cao cấp'),
-    (9, 'Villa'),
-    (10, 'Bungalow');
+INSERT INTO ViTri (IDViTri, TenViTri) VALUES
+  (1, 'Quản Lý'),
+  (2, 'Nhân Viên');
+-- Chèn dữ liệu vào bảng TrinhDo
+INSERT INTO TrinhDo (IDTrinhDo, TrinhDo) VALUES
+    (1, 'Trung Cấp'),
+    (2, 'Cao Đẳng'),
+    (3, 'Đại Học'),
+    (4, 'Sau Đại Học');
+-- Chèn dữ liệu vào bảng BoPhan
+INSERT INTO BoPhan (IDBoPhan, TenBoPhan) VALUES
+    (1, 'Sale-Marketing'),
+    (2, 'Hành chính'),
+    (3, 'Phục vụ'),
+    (4, 'Quản lý');
 
-INSERT INTO KieuThue (IDKieuThue, Gia) VALUES
-    ('Theo ngày', 500000),
-    ('Theo tuần', 3000000),
-    ('Theo tháng', 12000000),
-    ('Theo giờ', 100000),
-    ('Theo đêm', 700000),
-    ('Theo lần', 200000),
-    ('Theo khách', 1500000),
-    ('Theo phòng', 2500000),
-    ('Theo căn hộ', 4500000),
-    ('Theo Villa', 6000000);
-
+-- Chèn dữ liệu vào bảng NhanVien
+INSERT INTO NhanVien (IDNhanVien, HoTen, IDViTri, IDTrinhDo, IDBoPhan, NgaySinh, SoCMND, Luong, SDT, Email, DiaChi) VALUES
+    (1, 'Nguyễn Văn An', 1, 3, 1, '1970-11-07', '456231786', '10000000', '0901234121', 'annguyen@gmail.com', '295 Nguyễn Tất Thành, Đà Nẵng'),
+    (2, 'Lê Văn Bình', 1, 2, 2, '1997-04-09', '654231234', '7000000', '0934212314', 'binhlv@gmail.com', '22 Yên Bái, Đà Nẵng'),
+    (3, 'Hồ Thị Yến', 1, 3, 2, '1995-12-12', '999231723', '14000000', '0412352315', 'thiyen@gmail.com', 'K234/11 Điện Biên Phủ, Gia Lai'),
+    (4, 'Võ Công Toản', 1, 4, 4, '1980-04-04', '123231365', '17000000', '0374443232', 'toan0404@gmail.com', '77 Hoàng Diệu, Quảng Trị'),
+    (5, 'Nguyễn Bỉnh Phát', 2, 1, 1, '1999-12-09', '454363232', '6000000', '0902341231', 'phatphat@gmail.com', '43 Yên Bái, Đà Nẵng'),
+    (6, 'Khúc Nguyễn An Nghi', 2, 2, 3, '2000-11-08', '964542311', '7000000', '0978653213', 'annghi20@gmail.com', '294 Nguyễn Tất Thành, Đà Nẵng'),
+    (7, 'Nguyễn Hữu Hà', 2, 3, 2, '1993-01-01', '534323231', '8000000', '0941234553', 'nhh0101@gmail.com', '4 Nguyễn Chí Thanh, Huế'),
+    (8, 'Nguyễn Hà Đông', 2, 4, 4, '1989-09-03', '234414123', '9000000', '0642123111', 'donghanguyen@gmail.com', '111 Hùng Vương, Hà Nội'),
+    (9, 'Tòng Hoang', 2, 4, 4, '1982-09-03', '256781231', '6000000', '0245144444', 'hoangtong@gmail.com', '213 Hàm Nghi, Đà Nẵng'),
+    (10, 'Nguyễn Công Đạo', 2, 3, 2, '1994-01-08', '755434343', '8000000', '0988767111', 'nguyencongdao12@gmail.com', '6 Hoà Khánh, Đồng Nai');
 INSERT INTO LoaiKhach (IDLoaiKhach, TenLoaiKhach) VALUES
     (1, 'Diamond'),
-    (2, 'Platinum'),
+    (2, 'Platinium'),
     (3, 'Gold'),
     (4, 'Silver'),
     (5, 'Member');
+-- Chèn dữ liệu vào bảng LoaiDichVu
+INSERT INTO LoaiDichVu (IDLoaiDichVu, TenLoaiDichVu) VALUES
+    (1, 'Villa'),
+    (2, 'House'),
+    (3, 'Room');
+-- Chèn dữ liệu vào bảng KieuThue
+INSERT INTO KieuThue (IDKieuThue, TenKieuThue) VALUES
+    ('1','year'), -- year
+    ('2', 'month'), -- month
+    ('3', 'day'), -- day
+    ('4', 'hour'); -- hour
 
+-- Chèn dữ liệu vào bảng KhachHang
 INSERT INTO KhachHang (IDKhachHang, IDLoaiKhach, HoTen, NgaySinh, SoCMND, SDT, Email, DiaChi) VALUES
-    (1, 1, 'Nguyễn Văn A', '1945-05-15', '123456789', '0987654321', 'nguyenvana@example.com', 'Hà Nội'),
-    (2, 2, 'Phạm Thị B', '1985-08-20', '987654321', '0123456789', 'phamthib@example.com', 'Hồ Chí Minh'),
-    (3, 3, 'Trần Văn C', '1978-12-10', '654321789', '0909090909', 'tranvanc@example.com', 'Đà Nẵng'),
-    (4, 4, 'Lê Thị D', '1995-04-25', '456789123', '0999888777', 'lethid@example.com', 'Nha Trang'),
-    (5, 5, 'Hoàng Văn E', '2001-10-01', '987654321', '0888777666', 'hoangvane@example.com', 'Quảng Trị'),
-    (6, 1, 'Mai Thị F', '2000-03-08', '123456789', '0777666555', 'maithif@example.com', 'Quảng Ninh'),
-    (7, 5, 'Nguyễn Văn G', '1976-07-18', '567891234', '0666555444', 'nguyenvang@example.com', 'Hải Phòng'),
-    (8, 4, 'Trần Thị H', '1987-06-21', '987123654', '0555444333', 'tranthih@example.com', 'Quảng Trị'),
-    (9, 1, 'Lê Văn I', '1998-09-30', '654789123', '0444333222', 'levani@example.com', 'Đà Lạt'),
-    (10, 2, 'Phạm Văn K', '1950-11-05', '789456123', '0333222111', 'phamvank@example.com', 'Hội An');
+    (1, 5, 'Nguyễn Thị Hào', '1970-11-07', '643431213', '0945423362', 'thihao07@gmail.com', '23 Nguyễn Hoàng, Đà Nẵng'),
+    (2, 3, 'Phạm Xuân Diệu', '1992-08-08', '865342123', '0954333333', 'xuandieu92@gmail.com', 'K77/22 Thái Phiên, Quảng Trị'),
+    (3, 1, 'Trương Đình Nghệ', '1990-02-27', '488645199', '0373213122', 'nghenhan2702@gmail.com', 'K323/12 Ông Ích Khiêm, Vinh'),
+    (4, 1, 'Dương Văn Quan', '1981-07-08', '543432111', '0490039241', 'duongquan@gmail.com', 'K453/12 Lê Lợi, Đà Nẵng'),
+    (5, 4, 'Hoàng Trần Nhi Nhi', '1995-12-09', '795453345', '0312345678', 'nhinhi123@gmail.com', '224 Lý Thái Tổ, Gia Lai'),
+    (6, 4, 'Tôn Nữ Mộc Châu', '2005-12-06', '732434215', '0988888844', 'tonnuchau@gmail.com', '37 Yên Thế, Đà Nẵng'),
+    (7, 1, 'Nguyễn Mỹ Kim', '1984-04-08', '856453123', '0912345698', 'kimcuong84@gmail.com', 'K123/45 Lê Lợi, Hồ Chí Minh'),
+    (8, 3, 'Nguyễn Thị Hào', '1999-04-08', '965656433', '0763212345', 'haohao99@gmail.com', '55 Nguyễn Văn Linh, Kon Tum'),
+    (9, 1, 'Trần Đại Danh', '1994-07-01', '432341235', '0643343433', 'danhhai99@gmail.com', '24 Lý Thường Kiệt, Quảng Ngãi'),
+    (10, 2, 'Nguyễn Tâm Đắc', '1989-07-01', '344343432', '0987654321', 'dactam@gmail.com', '22 Ngô Quyền, Đà Nẵng');
 
+-- Chèn dữ liệu vào bảng DichVu
 INSERT INTO DichVu (IDDichVu, TenDichVu, DienTich, SoTang, SoNguoiToiDa, ChiPhiThue, IDKieuThue, IDLoaiDichVu, TrangThai) VALUES
-    (1, 'Biệt thự biển', 500, 2, 10, 12000000, 'Theo tháng', 2, 'Đang hoạt động'),
-    (2, 'Phòng Deluxe', 50, 1, 2, 2500000, 'Theo ngày', 1, 'Đang hoạt động'),
-    (3, 'Căn hộ cao cấp', 100, 5, 6, 4500000, 'Theo lần', 3, 'Đang hoạt động'),
-    (4, 'Phòng Suite', 70, 3, 4, 3000000, 'Theo tuần', 4, 'Đang hoạt động'),
-    (5, 'Phòng gia đình', 80, 2, 5, 3500000, 'Theo đêm', 5, 'Đang hoạt động'),
-    (6, 'Chung cư cao cấp', 120, 10, 8, 5000000, 'Theo giờ', 8, 'Đang hoạt động'),
-    (7, 'Căn hộ Studio', 60, 4, 3, 2800000, 'Theo đêm', 7, 'Đang hoạt động'),
-    (8, 'Villa', 150, 1, 12, 6000000, 'Theo ngày', 9, 'Đang hoạt động'),
-    (9, 'Bungalow', 40, 1, 2, 2000000, 'Theo đêm', 10, 'Đang hoạt động'),
-    (10, 'Phòng tiêu chuẩn', 45, 1, 2, 2200000, 'Theo lần', 6, 'Đang hoạt động');
+    (1, 'Villa Beach Front', 25000, 4, 10, 10000000, '3', 1, 'vip'),
+    (2, 'House Princess 01', 14000, 3, 7, 5000000, '2', 2, 'vip'),
+    (3, 'Room Twin 01', 5000, NULL, 2, 1000000, '4', 3, 'normal'),
+    (4, 'Villa No Beach Front', 22000, 3, 8, 9000000, '3', 1, 'normal'),
+    (5, 'House Princess 02', 10000, 2, 5, 4000000, '3', 2, 'normal'),
+    (6, 'Room Twin 02', 3000, NULL, 2, 900000, '4', 3, 'normal');
 
+-- Chèn dữ liệu vào bảng DichVuDiKem
 INSERT INTO DichVuDiKem (IDDichVuDiKem, TenDichVuDiKem, Gia, DonVi, TrangThaiKhaDung) VALUES
-    (1, 'Bể bơi riêng', 5000000, 1, 'Có sẵn'),
-    (2, 'Bữa sáng', 150000, 1, 'Có sẵn'),
-    (3, 'Xe đưa đón sân bay', 1000000, 1, 'Có sẵn'),
-    (4, 'Spa', 800000, 1, 'Có sẵn'),
-    (5, 'Dịch vụ phòng', 200000, 1, 'Có sẵn'),
-    (6, 'Thiết bị vui chơi gia đình', 300000, 1, 'Có sẵn'),
-    (7, 'Tour du lịch', 500000, 1, 'Có sẵn'),
-    (8, 'Dịch vụ giặt là', 100000, 1, 'Có sẵn'),
-    (9, 'Bể Jacuzzi', 700000, 1, 'Có sẵn'),
-    (10, 'Dịch vụ cho thú cưng', 200000, 1, 'Có sẵn');
+    (1, 'Karaoke', 10000, 'giờ', 'tiện nghi, hiện tại'),
+    (2, 'Thuê xe máy', 10000, 'chiếc', 'hỏng 1 xe'),
+    (3, 'Thuê xe đạp', 20000, 'chiếc', 'tốt'),
+    (4, 'Buffet buổi sáng', 15000, 'suất', 'đầy đủ đồ ăn, tráng miệng'),
+    (5, 'Buffet buổi trưa', 90000, 'suất', 'đầy đủ đồ ăn, tráng miệng'),
+    (6, 'Buffet buổi tối', 16000, 'suất', 'đầy đủ đồ ăn, tráng miệng');
 
-INSERT INTO TrinhDo (IDTrinhDo, TrinhDo) VALUES
-    (1, 'Đại học'),
-    (2, 'Cao đẳng'),
-    (3, 'Trung cấp'),
-    (4, 'Sơ cấp'),
-    (5, 'Chứng chỉ'),
-    (6, 'Khác'),
-    (7, 'Thạc sĩ'),
-    (8, 'Tiến sĩ'),
-    (9, 'Thạc sĩ cao cấp'),
-    (10, 'Chuyên gia'),
-    (11, 'Kiến trúc sư'),
-    (12, 'Kỹ sư');
-
-INSERT INTO ViTri (IDViTri, TenViTri) VALUES
-    (1, 'Lãnh đạo'),
-    (2, 'Nhân viên văn phòng'),
-    (3, 'Kỹ thuật viên'),
-    (4, 'Quản lý dự án'),
-    (5, 'Chuyên viên kinh doanh'),
-    (6, 'Nhân viên lễ tân'),
-    (7, 'Quản lý nhân sự'),
-    (8, 'Kế toán viên'),
-    (9, 'Kỹ sư phần mềm'),
-    (10, 'Bảo vệ');
-
-INSERT INTO BoPhan (IDBoPhan, TenBoPhan) VALUES
-    (1, 'Ban điều hành'),
-    (2, 'Phòng kinh doanh'),
-    (3, 'Phòng nhân sự'),
-    (4, 'Phòng kỹ thuật'),
-    (5, 'Phòng dịch vụ khách hàng'),
-    (6, 'Phòng tài chính'),
-    (7, 'Phòng marketing'),
-    (8, 'Phòng hành chính'),
-    (9, 'Phòng IT'),
-    (10, 'Ban bảo vệ');
-
--- Assuming IDViTri, IDTrinhDo, and IDBoPhan refer to existing IDs in ViTri, TrinhDo, and BoPhan tables
-INSERT INTO NhanVien (IDNhanVien, HoTen, IDViTri, IDTrinhDo, IDBoPhan, NgaySinh, SoCMND, Luong, SDT, Email, DiaChi) VALUES
-    (1, 'Nguyễn Văn An', 2, 1, 2, '1990-05-15', '123456789', '15000000 đồng', '0987654321', 'nguyenvanan@example.com', 'Hà Nội'),
-    (2, 'Trần Thị Bình', 6, 2, 3, '1985-08-20', '987654321', '12000000 đồng', '0123456789', 'tranthibinh@example.com', 'Hồ Chí Minh'),
-    (3, 'Phạm Văn Cường', 3, 3, 4, '1978-12-10', '654321789', '9000000 đồng', '0909090909', 'phamvancuong@example.com', 'Đà Nẵng'),
-    (4, 'Hoàng Thị Dung', 7, 4, 5, '1995-04-25', '456789123', '8000000 đồng', '0999888777', 'hoangthidung@example.com', 'Nha Trang'),
-    (5, 'Lê Văn Đức', 4, 5, 6, '1980-10-01', '987654321', '10000000 đồng', '0888777666', 'levanduc@example.com', 'Vũng Tàu'),
-    (6, 'Mai Thị Eo', 8, 6, 7, '1992-03-08', '123456789', '11000000 đồng', '0777666555', 'maithieo@example.com', 'Quảng Ninh'),
-    (7, 'Nguyễn Văn Phúc', 1, 7, 8, '1976-07-18', '567891234', '16000000 đồng', '0666555444', 'nguyenvanphuc@example.com', 'Hải Phòng'),
-    (8, 'Trần Thị Hương', 5, 8, 9, '1987-06-21', '987123654', '13000000 đồng', '0555444333', 'tranthihuong@example.com', 'Phú Quốc'),
-    (9, 'Lê Văn Giang', 10, 9, 10, '1998-09-30', '654789123', '9500000 đồng', '0444333222', 'levangiang@example.com', 'Đà Lạt'),
-    (10, 'Phạm Văn Khánh', 9, 10, 1, '1993-11-05', '789456123', '14000000 đồng', '0333222111', 'phamvankhanh@example.com', 'Hội An');
-
--- Assuming IDNhanVien and IDKhachHang refer to existing IDs in NhanVien and KhachHang tables, and IDDichVu refers to existing IDs in DichVu table
 INSERT INTO Hop_Dong (IDHopDong, IDNhanVien, IDKhachHang, IDDichVu, NgayLamHopDong, NgayKetThuc, TienDatCoc) VALUES
-    (1, 1, 1, 2, '2024-01-01', '2024-01-15', 5000000),
-    (2, 2, 2, 3, '2024-02-05', '2024-02-20', 3000000),
-    (3, 3, 3, 4, '2024-03-10', '2024-03-25', 4000000),
-    (4, 4, 4, 5, '2024-04-15', '2024-04-30', 3500000),
-    (5, 5, 1, 6, '2024-05-20', '2024-06-04', 6000000),
-    (6, 6, 6, 7, '2024-06-25', '2024-07-10', 7000000),
-    (7, 7, 7, 8, '2024-07-30', '2024-08-14', 4500000),
-    (8, 8, 2, 9, '2024-08-15', '2024-08-30', 3000000),
-    (9, 9, 3, 10, '2024-09-01', '2024-09-16', 2000000),
-    (10, 10, 10, 1, '2024-10-05', '2024-10-20', 4000000),
-    (11, 1, 1, 2, '2024-01-01', '2024-01-15', 5000000),
-    (12, 2, 2, 3, '2024-02-05', '2024-02-20', 3000000),
-    (13, 3, 3, 4, '2024-03-10', '2024-03-25', 4000000),
-    (14, 4, 4, 5, '2024-04-15', '2024-04-30', 3500000),
-    (15, 5, 5, 6, '2024-05-20', '2024-06-04', 6000000);
+    (1, 3, 1, 3, '2020-12-08', '2020-12-08', 0),
+    (2, 7, 3, 1, '2020-07-14', '2020-07-21', 200000),
+    (3, 3, 4, 2, '2021-03-15', '2021-03-17', 50000),
+    (4, 7, 5, 5, '2021-01-14', '2021-01-18', 100000),
+    (5, 7, 2, 6, '2021-07-14', '2021-07-15', 0),
+    (6, 7, 7, 6, '2021-06-01', '2021-06-03', 0),
+    (7, 7, 4, 4, '2021-09-02', '2021-09-05', 100000),
+    (8, 3, 4, 1, '2021-06-17', '2021-06-18', 150000),
+    (9, 3, 4, 3, '2020-11-19', '2020-11-19', 0),
+    (10, 10, 3, 5, '2021-04-12', '2021-04-14', 0),
+    (11, 2, 2, 1, '2021-04-25', '2021-04-25', 0),
+    (12, 7, 10, 1, '2021-05-25', '2021-05-27', 0);
 
--- Assuming IDHopDong and IDDichVuDiKem refer to existing IDs in Hop_Dong and DichVuDiKem tables
-INSERT INTO HopDongChiTiet (IDHopDongChiTiet, IDHopDong, IDDichVuDiKem, SoLuong) VALUES
-    (1, 1, 1, 1),
-    (2, 2, 2, 2),
-    (3, 3, 3, 3),
-    (4, 4, 4, 4),
-    (5, 5, 5, 5),
-    (6, 6, 6, 6),
-    (7, 7, 7, 7),
-    (8, 8, 8, 8),
-    (9, 9, 9, 9),
-    (10, 10, 10, 10);
+INSERT INTO HopDongChiTiet (IDHopDongChiTiet, IDHopDong, IDDichVuDiKem, SoLuong)
+VALUES
+    (1, 2, 4, 5),
+    (2, 2, 5, 8),
+    (3, 2, 6, 15),
+    (4, 3, 1, 1),
+    (5, 3, 2, 11),
+    (6, 1, 3, 1),
+    (7, 1, 2, 2),
+    (8, 12, 2, 2);
+
+
+
 
 
 
