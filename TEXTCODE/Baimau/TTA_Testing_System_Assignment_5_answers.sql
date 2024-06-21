@@ -112,7 +112,7 @@ SELECT * FROM cau3_sub;
 												FROM `account`
 												GROUP BY DepartmentID
 											    ) AS tablealnv
-												);
+						);
 					SELECT * FROM cauview4;
                     
 -- Cách 2: sử dụng CTE :

@@ -28,10 +28,7 @@ DELIMITER ;
 call getCusById(175);
 
 DELIMITER //
-CREATE PROCEDURE GetCustomersCountByCity(
-    IN  in_city VARCHAR(50),
-    OUT total INT
-)
+CREATE PROCEDURE GetCustomersCountByCity(IN in_city VARCHAR(50),OUT total INT)
 BEGIN
     SELECT COUNT(customerNumber) INTO total
     FROM customers
