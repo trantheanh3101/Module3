@@ -161,13 +161,13 @@ where sl_dvdk = (select max(sl_dvdk) from views_sl_dvdk);
 # 14.	Hiển thị thông tin tất cả các Dịch vụ đi kèm chỉ mới được sử dụng một lần duy nhất.
 # Thông tin hiển thị bao gồm ma_hop_dong, ten_loai_dich_vu, ten_dich_vu_di_kem, so_lan_su_dung
 # (được tính dựa trên việc count các ma_dich_vu_di_kem).
-    select hd.IDHopDong,l.TenLoaiDichVu,dvdk.TenDichVuDiKem,count(h.SoLuong) as slsd
+    select hd.IDHopDong,l.TenLoaiDichVu,dvdk.TenDichVuDiKem,COUNT(h.SoLuong) as slsd
     from dichvudikem dvdk
     left join furamaresort.hopdongchitiet h on dvdk.IDDichVuDiKem = h.IDDichVuDiKem
     left join furamaresort.hop_dong hd on hd.IDHopDong = h.IDHopDong
     left join furamaresort.dichvu d on d.IDDichVu = hd.IDDichVu
     left join furamaresort.loaidichvu l on l.IDLoaiDichVu = d.IDLoaiDichVu
-    group by dvdk.IDDichVuDiKem
+    group by dvdk.TenDichVuDiKem
     having slsd = 1;
 
 # 15.	Hiển thi thông tin của tất cả nhân viên bao gồm
@@ -196,29 +196,55 @@ WHERE nv.IDNhanVien NOT IN (
 
 # 17.	Cập nhật thông tin những khách hàng có ten_loai_khach từ Platinum lên Diamond,
 # chỉ cập nhật những khách hàng đã từng đặt phòng với Tổng Tiền thanh toán trong năm 2021 là lớn hơn 10.000.000 VNĐ.
-DROP view if exists TongTienThanhToan2021;
-CREATE VIEW TongTienThanhToan2021 AS
-SELECT hd.IDKhachHang,
-    SUM(hd.TienDatCoc) + SUM(COALESCE(dv.ChiPhiThue, 0)) + SUM(COALESCE(hdct.SoLuong * dvdk.Gia, 0)) AS TongTienThanhToan
-FROM Hop_Dong hd
-LEFT JOIN DichVu dv ON hd.IDDichVu = dv.IDDichVu
-LEFT JOIN HopDongChiTiet hdct ON hd.IDHopDong = hdct.IDHopDong
-LEFT JOIN DichVuDiKem dvdk ON hdct.IDDichVuDiKem = dvdk.IDDichVuDiKem
-WHERE YEAR(hd.NgayLamHopDong) = 2021
-GROUP BY hd.IDKhachHang;
+#      cach 1: view
+DROP VIEW IF EXISTS khachhang_update;
+CREATE VIEW KhachHang_Update AS
+    SELECT kh.IDKhachHang,kh.HoTen,lk.TenLoaiKhach,hd.IDHopDong,dv.TenDichVu,hd.NgayLamHopDong,hd.NgayKetThuc,
+           COALESCE(dv.ChiPhiThue, 0) + COALESCE(sum(hdct.SoLuong * dvd.Gia),0) AS TongTien
+    FROM KhachHang kh
+        LEFT JOIN Hop_Dong hd ON kh.IDKhachHang = hd.IDKhachHang
+        LEFT JOIN DichVu dv ON hd.IDDichVu = dv.IDDichVu
+        LEFT JOIN LoaiKhach lk ON kh.IDLoaiKhach = lk.IDLoaiKhach
+        LEFT JOIN HopDongChiTiet hdct ON hd.IDHopDong = hdct.IDHopDong
+        LEFT JOIN DichVuDiKem dvd ON hdct.IDDichVuDiKem = dvd.IDDichVuDiKem
+    WHERE lk.TenLoaiKhach = 'Platinium' AND YEAR(hd.NgayLamHopDong) = 2021
+    group by kh.IDKhachHang,hd.IDHopDong
+    HAVING TongTien > 10000000;
 
-CREATE VIEW KhachHangCapNhat AS
-SELECT tt.IDKhachHang
-FROM TongTienThanhToan2021 tt
-JOIN KhachHang kh ON tt.IDKhachHang = kh.IDKhachHang
-JOIN LoaiKhach lk ON kh.IDLoaiKhach = lk.IDLoaiKhach
-WHERE tt.TongTienThanhToan > 10000000 AND lk.TenLoaiKhach = 'Platinum';
+SELECT *
+FROM khachhang as kh
+join KhachHang_Update AS ku ON kh.IDKhachHang = ku.IDKhachHang
+where kh.IDLoaiKhach = 2;
 
-UPDATE KhachHang kh
-JOIN KhachHangCapNhat khcn ON kh.IDKhachHang = khcn.IDKhachHang
-SET kh.IDLoaiKhach = (SELECT IDLoaiKhach FROM LoaiKhach WHERE TenLoaiKhach = 'Diamond');
+UPDATE KhachHang AS kh
+    JOIN KhachHang_Update AS ku ON kh.IDKhachHang = ku.IDKhachHang
+SET kh.IDLoaiKhach = 1      -- ID của loại Diamond
+WHERE kh.IDLoaiKhach = 2; -- ID của loại Platinum
+
+#  cach2 : sub
+UPDATE KhachHang AS kh
+JOIN (
+    SELECT kh.IDKhachHang,kh.HoTen,lk.TenLoaiKhach,hd.IDHopDong,dv.TenDichVu,hd.NgayLamHopDong,hd.NgayKetThuc,
+    COALESCE(dv.ChiPhiThue, 0) + COALESCE(sum(hdct.SoLuong * dvd.Gia),0) AS TongTien
+    FROM KhachHang kh
+    LEFT JOIN Hop_Dong hd ON kh.IDKhachHang = hd.IDKhachHang
+    LEFT JOIN DichVu dv ON hd.IDDichVu = dv.IDDichVu
+    LEFT JOIN LoaiKhach lk ON kh.IDLoaiKhach = lk.IDLoaiKhach
+    LEFT JOIN HopDongChiTiet hdct ON hd.IDHopDong = hdct.IDHopDong
+    LEFT JOIN DichVuDiKem dvd ON hdct.IDDichVuDiKem = dvd.IDDichVuDiKem
+    WHERE lk.TenLoaiKhach = 'Platinium' AND YEAR(hd.NgayLamHopDong) = 2021
+    group by kh.IDKhachHang,hd.IDHopDong
+    HAVING TongTien > 10000000) AS ku ON kh.IDKhachHang = ku.IDKhachHang
+SET kh.IDLoaiKhach = 1      -- ID của loại Diamond
+WHERE kh.IDLoaiKhach = 2; -- ID của loại Platinum
+
 
 # 18.	Xóa những khách hàng có hợp đồng trước năm 2021 (chú ý ràng buộc giữa các bảng).
+SELECT DISTINCT *
+FROM KhachHang AS kh
+JOIN Hop_Dong AS hd ON kh.IDKhachHang = hd.IDKhachHang
+WHERE YEAR(hd.NgayLamHopDong) < 2021;
+
 #
 # 19.	Cập nhật giá cho các dịch vụ đi kèm được sử dụng trên 10 lần trong năm 2020 lên gấp đôi.
 #
