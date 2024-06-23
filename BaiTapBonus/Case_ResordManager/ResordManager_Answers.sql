@@ -240,26 +240,104 @@ WHERE kh.IDLoaiKhach = 2; -- ID của loại Platinum
 
 
 # 18.	Xóa những khách hàng có hợp đồng trước năm 2021 (chú ý ràng buộc giữa các bảng).
-SELECT DISTINCT *
-FROM KhachHang AS kh
-JOIN Hop_Dong AS hd ON kh.IDKhachHang = hd.IDKhachHang
+DROP VIEW IF EXISTS khachhangdelete;
+CREATE VIEW khachhangdelete AS
+SELECT DISTINCT kh.IDKhachHang
+FROM KhachHang kh
+LEFT JOIN Hop_Dong hd ON kh.IDKhachHang = hd.IDKhachHang
 WHERE YEAR(hd.NgayLamHopDong) < 2021;
 
-#
+alter table hopdongchitiet
+drop foreign key hopdongchitiet_ibfk_2;
+alter table hopdongchitiet
+add constraint hopdongchitiet_ibfk_2
+foreign key (IDHopDong) references hop_dong (IDHopDong)
+on delete cascade;
+
+alter table hop_dong
+drop foreign key hop_dong_ibfk_2;
+alter table hop_dong
+add constraint hop_dong_ibfk_2
+foreign key (IDKhachHang) references khachhang (IDKhachHang)
+on delete cascade;
+
+DELETE kh
+FROM KhachHang kh
+JOIN khachhangdelete k on kh.IDKhachHang = k.IDKhachHang;
+
 # 19.	Cập nhật giá cho các dịch vụ đi kèm được sử dụng trên 10 lần trong năm 2020 lên gấp đôi.
-#
+SELECT hct.IDDichVuDiKem, SUM(hct.SoLuong) AS TongSoLuong
+FROM HopDongChiTiet hct
+         JOIN Hop_Dong hd ON hct.IDHopDong = hd.IDHopDong
+WHERE YEAR(hd.NgayLamHopDong) = 2020
+GROUP BY hct.IDDichVuDiKem
+HAVING SUM(hct.SoLuong) > 10;
+
+UPDATE DichVuDiKem
+SET Gia = Gia * 2
+WHERE IDDichVuDiKem IN (
+    SELECT hct.IDDichVuDiKem
+    FROM HopDongChiTiet hct
+    JOIN Hop_Dong hd ON hct.IDHopDong = hd.IDHopDong
+    WHERE YEAR(hd.NgayLamHopDong) = 2020
+    GROUP BY hct.IDDichVuDiKem
+    HAVING SUM(hct.SoLuong) > 10
+);
+
 # 20.	Hiển thị thông tin của tất cả các nhân viên và khách hàng có trong hệ thống,
 # thông tin hiển thị bao gồm id (ma_nhan_vien, ma_khach_hang), ho_ten, email, so_dien_thoai, ngay_sinh, dia_chi.
+SELECT
+    IDNhanVien AS ma_id,
+    HoTen AS ho_ten,
+    Email AS email,
+    SDT AS so_dien_thoai,
+    NgaySinh AS ngay_sinh,
+    DiaChi AS dia_chi,
+    'NhanVien' AS loai
+FROM
+    NhanVien
+UNION
+SELECT
+    IDKhachHang AS ma_id,
+    HoTen AS ho_ten,
+    Email AS email,
+    SDT AS so_dien_thoai,
+    NgaySinh AS ngay_sinh,
+    DiaChi AS dia_chi,
+    'KhachHang' AS loai
+FROM
+    KhachHang;
+
 
 #  	----------------------- SQL NÂNG CAO -------------------
 # 21.	Tạo khung nhìn có tên là v_nhan_vien để lấy được thông tin của tất cả các nhân viên có địa chỉ là “Hải Châu”
 #       và đã từng lập hợp đồng cho một hoặc nhiều khách hàng bất kì với ngày lập hợp đồng là “12/12/2019”.
+Drop view if exists v_nhan_vien;
+CREATE VIEW v_nhan_vien AS
+SELECT nv.IDNhanVien,nv.HoTen,nv.Email,nv.SDT,nv.NgaySinh,nv.DiaChi
+FROM NhanVien nv
+    JOIN Hop_Dong hd ON nv.IDNhanVien = hd.IDNhanVien
+WHERE nv.DiaChi LIKE '%Hải Châu%' AND hd.NgayLamHopDong = '2019-12-12';
+
 
 # 22.	Thông qua khung nhìn v_nhan_vien thực hiện cập nhật địa chỉ thành “Liên Chiểu”
 # đối với tất cả các nhân viên được nhìn thấy bởi khung nhìn này.
+UPDATE NhanVien nv
+join furamaresort.v_nhan_vien vnv on nv.IDNhanVien = vnv.IDNhanVien
+SET nv.DiaChi = 'Liên Chiểu';
 
-# 23.	Tạo Stored Procedure sp_xoa_khach_hang dùng để xóa thông tin của một khách hàng nào đó với
-#       ma_khach_hang được truyền vào như là 1 tham số của sp_xoa_khach_hang.
+    # 23.	Tạo Stored Procedure sp_xoa_khach_hang dùng để xóa thông tin của một khách hàng nào đó với
+    #       ma_khach_hang được truyền vào như là 1 tham số của sp_xoa_khach_hang.
+DELIMITER //
+CREATE PROCEDURE sp_xoa_khach_hang (IN ma_khach_hang INT)
+BEGIN
+    DELETE FROM KhachHang kh
+    WHERE kh.IDKhachHang = ma_khach_hang;
+    SELECT CONCAT('Đã xóa khách hàng có ID ', ma_khach_hang) AS Result;
+END //
+DELIMITER ;
+call sp_xoa_khach_hang(1);
+
 
 # 24.	Tạo Stored Procedure sp_them_moi_hop_dong dùng để thêm mới vào bảng hop_dong với yêu cầu
 #       sp_them_moi_hop_dong phải thực hiện kiểm tra tính hợp lệ của dữ liệu bổ sung,

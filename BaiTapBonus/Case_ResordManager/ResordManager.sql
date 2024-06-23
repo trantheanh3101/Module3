@@ -144,7 +144,8 @@ INSERT INTO NhanVien (IDNhanVien, HoTen, IDViTri, IDTrinhDo, IDBoPhan, NgaySinh,
     (7, 'Nguyễn Hữu Hà', 2, 3, 2, '1993-01-01', '534323231', '8000000', '0941234553', 'nhh0101@gmail.com', '4 Nguyễn Chí Thanh, Huế'),
     (8, 'Nguyễn Hà Đông', 2, 4, 4, '1989-09-03', '234414123', '9000000', '0642123111', 'donghanguyen@gmail.com', '111 Hùng Vương, Hà Nội'),
     (9, 'Tòng Hoang', 2, 4, 4, '1982-09-03', '256781231', '6000000', '0245144444', 'hoangtong@gmail.com', '213 Hàm Nghi, Đà Nẵng'),
-    (10, 'Nguyễn Công Đạo', 2, 3, 2, '1994-01-08', '755434343', '8000000', '0988767111', 'nguyencongdao12@gmail.com', '6 Hoà Khánh, Đồng Nai');
+    (10, 'Nguyễn Công Đạo', 2, 3, 2, '1994-01-08', '755434343', '8000000', '0988767111', 'nguyencongdao12@gmail.com', '6 Hoà Khánh, Đồng Nai'),
+    (11, 'tran the anh', 1, 3, 4, '1998-01-31', '454556465', '10000000', '0857157116', 'trantheanhk11@gmail.com', '1 Hải Châu , Thanh Hoa');
 INSERT INTO LoaiKhach (IDLoaiKhach, TenLoaiKhach) VALUES
     (1, 'Diamond'),
     (2, 'Platinium'),
@@ -206,7 +207,8 @@ INSERT INTO Hop_Dong (IDHopDong, IDNhanVien, IDKhachHang, IDDichVu, NgayLamHopDo
     (9, 3, 4, 3, '2020-11-19', '2020-11-19', 0),
     (10, 10, 3, 5, '2021-04-12', '2021-04-14', 0),
     (11, 2, 2, 1, '2021-04-25', '2021-04-25', 0),
-    (12, 7, 10, 1, '2021-05-25', '2021-05-27', 0);
+    (12, 7, 10, 1, '2021-05-25', '2021-05-27', 0),
+    (13, 11, 1, 4, '2019-12-12', '2020-01-31', 100000);
 
 INSERT INTO HopDongChiTiet (IDHopDongChiTiet, IDHopDong, IDDichVuDiKem, SoLuong)
 VALUES
@@ -217,7 +219,8 @@ VALUES
     (5, 3, 2, 11),
     (6, 1, 3, 1),
     (7, 1, 2, 2),
-    (8, 12, 2, 2);
+    (8, 12, 2, 2),
+    (9, 13, 4, 12);
 
 
 
