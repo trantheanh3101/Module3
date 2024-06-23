@@ -26,7 +26,7 @@ where (kh.DiaChi LIKE '%Đà Nẵng' OR kh.DiaChi LIKE '%Quảng Trị')
 # với SoLuong và Giá là từ bảng DichVuDiKem) cho tất cả các Khách hàng đã từng đặt phỏng.
 # (Những Khách hàng nào chưa từng đặt phòng cũng phải hiển thị ra).
 SELECT kh.IDKhachHang,kh.HoTen,lk.TenLoaiKhach,hd.IDHopDong,dv.TenDichVu,hd.NgayLamHopDong,hd.NgayKetThuc,
-    COALESCE(dv.ChiPhiThue, 0) + COALESCE(hdct.SoLuong, 0) * COALESCE(dvd.Gia, 0) AS TongTien
+    COALESCE(dv.ChiPhiThue, 0) + COALESCE(sum(hdct.SoLuong * dvd.Gia),0) AS TongTien
 #         (dv.ChiPhiThue + hdct.SoLuong * dvd.Gia) as TongTien
 FROM KhachHang kh
 LEFT JOIN Hop_Dong hd ON kh.IDKhachHang = hd.IDKhachHang
@@ -34,7 +34,7 @@ LEFT JOIN DichVu dv ON hd.IDDichVu = dv.IDDichVu
 LEFT JOIN LoaiKhach lk ON kh.IDLoaiKhach = lk.IDLoaiKhach
 LEFT JOIN HopDongChiTiet hdct ON hd.IDHopDong = hdct.IDHopDong
 LEFT JOIN DichVuDiKem dvd ON hdct.IDDichVuDiKem = dvd.IDDichVuDiKem
-GROUP BY kh.IDKhachHang,hd.IDHopDong
+group by kh.IDKhachHang,hd.IDHopDong
 ORDER BY kh.IDKhachHang;
 
 
@@ -196,6 +196,7 @@ WHERE nv.IDNhanVien NOT IN (
 
 # 17.	Cập nhật thông tin những khách hàng có ten_loai_khach từ Platinum lên Diamond,
 # chỉ cập nhật những khách hàng đã từng đặt phòng với Tổng Tiền thanh toán trong năm 2021 là lớn hơn 10.000.000 VNĐ.
+DROP view if exists TongTienThanhToan2021;
 CREATE VIEW TongTienThanhToan2021 AS
 SELECT hd.IDKhachHang,
     SUM(hd.TienDatCoc) + SUM(COALESCE(dv.ChiPhiThue, 0)) + SUM(COALESCE(hdct.SoLuong * dvdk.Gia, 0)) AS TongTienThanhToan
