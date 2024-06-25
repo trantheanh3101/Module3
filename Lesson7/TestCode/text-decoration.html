@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #333;
+        }
+        .none {
+            text-decoration: none;  /*none: Đoạn văn bản này không có bất kỳ trang trí nào.*/
+        }
+        .underline {
+            text-decoration: underline; /*underline: Đoạn văn bản này có gạch chân.*/
+        }
+        .overline {
+            text-decoration: overline; /*overline: Đoạn văn bản này có gạch chân phía trên.*/
+        }
+        .line-through {
+            text-decoration: line-through; /*line-through: Đoạn văn bản này có một đường gạch ngang qua.*/
+        }
+        .combined {
+            text-decoration: underline overline;
+        }
+        .styled-decoration { /* Đoạn văn bản này có một gạch chân màu đỏ và kiểu lượn sóng.*/
+            text-decoration-line: underline;
+            text-decoration-color: red;
+            text-decoration-style: wavy;
+        }
+        .no-decoration {  /*Liên kết này không có trang trí mặc định (thường là gạch chân).*/
+            text-decoration: none;
+            color: blue;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Text Decoration Examples</h1>
+
+    <p class="none">This text has no decoration.</p>
+    <p class="underline">This text is underlined.</p>
+    <p class="overline">This text has an overline.</p>
+    <p class="line-through">This text has a line through it.</p>
+    <p class="combined">This text is both underlined and has an overline.</p>
+    <p class="styled-decoration">This text has a red wavy underline.</p>
+
+    <a href="#" class="no-decoration">This link has no decoration.</a>
+</body>
+</html>

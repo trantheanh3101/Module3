@@ -1,0 +1,37 @@
+body{
+    font-family: Arial;
+}
+#menu, #menu ul, #menu li{
+    padding:0;
+    margin:0;
+}
+#menu li{
+    list-style: none; /*Bỏ đi các ký hiệu đánh dấu đầu mỗi phần tử của danh sách (bullet).*/
+    position: relative; /* Cho phép các danh sách con được đặt cạnh phần tử chứa nó (phần tử của danh sách ngoài)*/
+    width:100px; /* Cố định chiều rộng và chiều cao của một phần tử trong danh sách.*/
+    height: 30px;
+    padding:0 20px; /* Cố định lề trái (left) và phải (right) dành cho các nội dung bên trong phần tử danh sách (li) với khung viền của nó.*/
+    background-color: black; /* Đổi màu nền sang mà đen cho tất cả các phần tử trong danh sách.*/
+    line-height: 30px; /*Cố định chiều cao cho mỗi dòng văn bản trong phần tử của danh sách.*/
+    cursor:pointer; /*chuyển biểu tượng của con trỏ màn hình sang hình bàn tay.*/
+}
+#menu li a{
+    text-decoration:none;
+    color: white;
+}
+
+#menu li:hover{
+    background-color:red;
+}
+
+#menu ul ul{
+    position: absolute; /*cho phép cố định vị trí xuất hiện của các danh sách con*/
+    top:0;
+    left:140px;
+    visibility:hidden;
+}
+
+#menu ul li:hover ul{
+    visibility:visible;
+    /* Bộ chọn này sẽ cho phép danh sách con tương ứng của phần tử đó được hiển thị lên.*/
+}
