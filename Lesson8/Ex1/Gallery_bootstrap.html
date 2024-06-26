@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- Thêm Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .gallery img {
+            width: 100%;
+            height: auto;
+        }
+        .gallery:hover {
+            border: 1px solid #777;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <h2 class="text-center my-4">Responsive Image Gallery</h2>
+    <h4 class="text-center mb-4">Resize the browser window to see the effect.</h4>
+
+    <div class="row">
+        <!-- Phần tử gallery đầu tiên -->
+        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+<!--            <div class="col-sm-6 col-sm-4 col-sm-3 mb-4">-->
+            <div class="gallery border">
+                <a href="img_fjords.jpg" target="_blank">
+                    <img src="img_fjords.jpg" alt="Trolltunga Norway" class="img-fluid">
+                </a>
+                <div class="desc p-2 text-center">Add a description of the image here</div>
+            </div>
+        </div>
+        <!-- Phần tử gallery thứ hai -->
+        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+<!--            <div class="col-sm-6 col-sm-4 col-sm-3 mb-4">-->
+            <div class="gallery border">
+                <a href="img_forest.jpg" target="_blank">
+                    <img src="img_forest.jpg" alt="Forest" class="img-fluid">
+                </a>
+                <div class="desc p-2 text-center">Add a description of the image here</div>
+            </div>
+        </div>
+        <!-- Phần tử gallery thứ ba -->
+        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+<!--            <div class="col-sm-6 col-sm-4 col-sm-3 mb-4">-->
+            <div class="gallery border">
+                <a href="img_lights.jpg" target="_blank">
+                    <img src="img_lights.jpg" alt="Northern Lights" class="img-fluid">
+                </a>
+                <div class="desc p-2 text-center">Add a description of the image here</div>
+            </div>
+        </div>
+        <!-- Phần tử gallery thứ tư -->
+        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+<!--            <div class="col-sm-6 col-sm-4 col-sm-3 mb-4">-->
+            <div class="gallery border">
+                <a href="img_mountains.jpg" target="_blank">
+                    <img src="img_mountains.jpg" alt="Mountains" class="img-fluid">
+                </a>
+                <div class="desc p-2 text-center">Add a description of the image here</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="py-3">
+        <p>This example uses Bootstrap grid system to re-arrange the images on different screen sizes. For screens larger than 700px wide, it will show four images side by side. For screens smaller than 700px, it will show two images side by side. For screens smaller than 500px, the images will stack vertically (100%).</p>
+    </div>
+</div>
+<!-- Thêm Bootstrap JS và các thư viện phụ thuộc -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
