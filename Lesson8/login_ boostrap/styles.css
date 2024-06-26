@@ -1,0 +1,53 @@
+html, body {
+    height: 100%; /* Đặt chiều cao của các phần tử html và body bằng 100% chiều cao của khung nhìn trình duyệt */
+}
+
+body {
+    display: -ms-flexbox; /* Sử dụng Flexbox cho IE10+ */
+    display: -webkit-box; /* Sử dụng Box layout model cho Safari */
+    display: flex; /* Sử dụng Flexbox cho các trình duyệt hiện đại */
+    -ms-flex-align: center; /* Căn giữa theo trục dọc cho IE10+ */
+    -ms-flex-pack: center; /* Căn giữa theo trục ngang cho IE10+ */
+    -webkit-box-align: center; /* Căn giữa theo trục dọc cho Safari */
+    align-items: center; /* Căn giữa theo trục dọc cho các trình duyệt hiện đại */
+    -webkit-box-pack: center; /* Căn giữa theo trục ngang cho Safari */
+    justify-content: center; /* Căn giữa theo trục ngang cho các trình duyệt hiện đại */
+    padding-top: 80px; /* Thêm khoảng cách trên */
+    padding-bottom: 40px; /* Thêm khoảng cách dưới */
+    background-color: #f5f5f5; /* Đặt màu nền là #f5f5f5 */
+}
+
+.form-signin {
+    width: 100%; /* Đặt chiều rộng của biểu mẫu là 100% */
+    max-width: 330px; /* Chiều rộng tối đa của biểu mẫu là 330px */
+    padding: 15px; /* Thêm khoảng cách bên trong 15px */
+    margin: 0 auto; /* Canh giữa biểu mẫu ngang */
+}
+
+.form-signin .checkbox {
+    font-weight: 400; /* Đặt độ đậm của chữ là 400 (bình thường) cho các phần tử checkbox trong form-signin */
+}
+
+.form-signin .form-control {
+    position: relative; /* Đặt vị trí tương đối để dễ dàng định vị các phần tử con */
+    box-sizing: border-box; /* Bao gồm cả padding và border trong kích thước phần tử */
+    height: auto; /* Chiều cao tự động */
+    padding: 10px; /* Thêm khoảng cách bên trong 10px */
+    font-size: 16px; /* Đặt cỡ chữ là 16px */
+}
+
+.form-signin .form-control:focus {
+    z-index: 2; /* Đặt z-index là 2 khi phần tử được focus để nó nằm trên các phần tử khác */
+}
+
+.form-signin input[type="email"] {
+    margin-bottom: -1px; /* Thêm khoảng cách dưới -1px để kết nối chặt chẽ với trường nhập mật khẩu */
+    border-bottom-right-radius: 0; /* Bỏ bo tròn góc dưới bên phải */
+    border-bottom-left-radius: 0; /* Bỏ bo tròn góc dưới bên trái */
+}
+
+.form-signin input[type="password"] {
+    margin-bottom: 10px; /* Thêm khoảng cách dưới 10px */
+    border-top-left-radius: 0; /* Bỏ bo tròn góc trên bên trái */
+    border-top-right-radius: 0; /* Bỏ bo tròn góc trên bên phải */
+}

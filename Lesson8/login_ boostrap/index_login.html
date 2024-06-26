@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-center">
+<!-- Sử dụng lớp CSS "text-center" để căn giữa nội dung trong phần tử body -->
+<form class="form-signin">
+    <!-- Định nghĩa một biểu mẫu với lớp CSS "form-signin" để định dạng theo kiểu đăng nhập -->
+    <img class="mb-4" src="bootstrap.png" alt="" width="72" height="72">
+    <!-- Hiển thị một hình ảnh với đường dẫn src là "bootstrap.png", có chiều rộng và chiều cao là 72px,
+         và có lớp CSS "mb-4" để thêm khoảng cách dưới (margin-bottom) bằng 1.5rem (tương đương 24px) -->
+    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <!-- Hiển thị tiêu đề "Please sign in" với kiểu chữ h3, có lớp CSS "mb-3" để thêm khoảng cách dưới bằng 1rem (16px),
+         và lớp CSS "font-weight-normal" để đặt độ đậm của chữ là bình thường (400) -->
+    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+    <!-- Tạo một trường nhập liệu cho email với các thuộc tính:
+         type="email": Xác định kiểu dữ liệu là email.
+         id="inputEmail": Định danh duy nhất cho trường này.
+         class="form-control": Áp dụng kiểu dáng Bootstrap cho trường nhập liệu.
+         placeholder="Email address": Hiển thị gợi ý "Email address".
+         required: Bắt buộc phải nhập.
+         autofocus: Tự động lấy tiêu điểm khi trang tải xong. -->
+    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+    <!-- Tạo một trường nhập liệu cho mật khẩu với các thuộc tính tương tự như trường email, nhưng kiểu dữ liệu là mật khẩu (type="password") -->
+    <div class="checkbox mb-3">
+        <!-- Tạo một div chứa checkbox với lớp CSS "mb-3" để thêm khoảng cách dưới bằng 1rem (16px) -->
+        <label>
+            <input type="checkbox" value="remember-me"> Remember me
+            <!-- Tạo một checkbox với giá trị "remember-me" và văn bản "Remember me" bên cạnh -->
+        </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <!-- Tạo một nút bấm "Sign in" với các thuộc tính:
+         class="btn btn-lg btn-primary btn-block": Áp dụng kiểu dáng Bootstrap cho nút lớn (btn-lg),
+         màu xanh (btn-primary), và chiếm toàn bộ chiều rộng (btn-block).
+         type="submit": Xác định hành động gửi biểu mẫu khi bấm nút. -->
+    <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+    <!-- Hiển thị đoạn văn bản "&copy; 2017-2018" với các lớp CSS:
+         mt-5: Thêm khoảng cách trên lớn (3rem, tương đương 48px).
+         mb-3: Thêm khoảng cách dưới (1rem, tương đương 16px).
+         text-muted: Áp dụng kiểu chữ màu xám nhạt. -->
+</form>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        crossorigin="anonymous"></script>
+</body>
+</html>
